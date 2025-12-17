@@ -1,50 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  templateUrl: './product.component.html'
 })
-export class ProductComponent implements OnInit
-{
-  products : any[] = [];
-  productName = '';
-  productPrice = '';
+export class ProductComponent implements OnInit {
 
-  constructor (private productservice : ProductService){}
+  products: any[] = [];
 
-  ngOnInit(): void {
-    this.loadproducts();
-  }
+  productName: string = '';
+  productPrice: number | null = null;
 
-  loadproducts(){
-    this.productservice.getProduct().subscribe(res => {
-      this.products = res.products;
-    });
-  }
+  ngOnInit() {}
 
-  addProduct(){
-    const newProduct ={
-      title : this.productName,
-      Price: this.productPrice
+  addProduct() {
+    const newProduct = {
+      id: Date.now(),
+      title: this.productName,
+      price: this.productPrice
     };
-   console.log(this.productName, this.productPrice);
 
-    this.productservice.addProduct(newProduct).subscribe(() => {
-      this.loadproducts();
-      this.productName = '';
-      this.productPrice = '';
-    });
+    this.products = [...this.products, newProduct]; 
+    this.productName = '';
+    this.productPrice = null;
   }
 
-    deleteProduct(id : number){
-      this.productservice.Deleteproduct(id).subscribe(() => {
-        this.loadproducts();
-      });
-    }
-
-
+  deleteProduct(id: number) {
+    this.products = this.products.filter(p => p.id !== id);
   }
-
+}
