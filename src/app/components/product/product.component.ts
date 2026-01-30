@@ -19,6 +19,7 @@ export class ProductComponent implements OnInit {
       title: this.productName,
       price: this.productPrice
     };
+    console.log("helloo");
 
     this.products = [...this.products, newProduct]; 
     this.productName = '';
